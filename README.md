@@ -14,9 +14,9 @@ Users can organize their study materials into different topics, upload new PDF o
 
 * **Document Upload & Management:** Easily upload `.pdf` and `.txt` files into categorized topic folders directly from the web interface.
 * **Topic-Based Knowledge Bases:** Organize study materials into distinct topics, allowing focused Q&A sessions.
-* **Intelligent Text Processing:** Automatically extracts text from documents, chunks it efficiently, and generates high-quality embeddings using OpenAI's `text-embedding-3-small` model.
-* **Efficient Information Retrieval (RAG):** Utilizes FAISS (Facebook AI Similarity Search) to quickly retrieve the most relevant document chunks based on semantic similarity to the user's query.
-* **Context-Aware Q&A:** Passes retrieved context to OpenAI's `gpt-4o` LLM to generate precise answers, significantly reducing hallucinations and grounding responses in your source material.
+* **Intelligent Text Processing:** Automatically extracts text from documents, chunks it, and generates high-quality embeddings using OpenAI's `text-embedding-3-small` model.
+* **Efficient Information Retrieval (RAG):** Utilizes FAISS to quickly retrieve the most relevant document chunks based on semantic similarity to the user's query.
+* **Context-Aware Q&A:** Passes retrieved context to`gpt-4o` LLM to generate  answers,  reducing hallucinations and grounding responses in your source material.
 * **Smart Routing & Intent Detection:** Dynamically routes user queries to the appropriate pipeline based on content type and query context.
 
 ## Technical Architecture
@@ -29,21 +29,21 @@ The application follows a standard RAG architecture, modularized into a Streamli
     * **Chunking:** Extracted text is split into smaller, overlapping chunks (e.g., Max 4 sentences) to ensure that the LLM receives manageable and contextually rich segments.
 
 2.  **Embedding Generation:**
-    * **Vectorization:** Each text chunk is converted into a high-dimensional numerical vector (embedding) using OpenAI's `text-embedding-3-small` model. These embeddings capture the semantic meaning of the text.
-    * **Persistence:** Generated embeddings are stored as NumPy arrays (`.npy` files) on disk, alongside their corresponding text chunks and original document names (`.json` files), enabling quick retrieval and persistence across sessions.
+    * **Vectorization:** Each text chunk is converted into a high-dimensional numerical vector using `text-embedding-3-small` model. These embeddings capture the semantic meaning of the text.
+    * **Persistence:** Generated embeddings are stored as `.npy` file, alongside their corresponding text chunks and original document names (`.json` files), enabling quick retrieval and persistence.
 
 3.  **Vector Database (FAISS):**
-    * **Indexing:** All generated embeddings for a selected topic are loaded and indexed using FAISS (Facebook AI Similarity Search). 
+    * **Indexing:** All generated embeddings for a selected topic are loaded and indexed using FAISS. 
 
 4.  **LLM-Powered Question Answering:**
-    * **Contextual Prompting:** The retrieved document chunks serve as "context." This context, along with the user's original question, is fed into a well-crafted prompt for the OpenAI `gpt-4o` LLM.
+    * **Contextual Prompting:** The retrieved document chunks serve as "context." This context, along with the user's original question, is fed into a well-crafted prompt for the `gpt-4o` LLM.
     * **Source Attribution:** The system tracks which specific documents contributed the retrieved chunks, providing transparency and allowing users to verify the information.
 
 
 
 5.  **Interact with the Agent:**
     * **Choose a topic:** Select one of your created topic folders from the dropdown.
-    * **Upload documents (optional):** Use the file uploader to add more documents to the selected topic.
+    * **Upload documents:** Use the file uploader to add more documents to the selected topic.
     * **Ask a question:** Type your question in the input box and press Enter.
 
     **Example: Querying on Uploaded File Content (SQL Document)**
