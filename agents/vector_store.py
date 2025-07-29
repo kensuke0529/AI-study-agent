@@ -10,7 +10,7 @@ from openai import OpenAI
 import spacy 
 
 def build_faiss_index(topic_name):
-    topic_path = Path(f'../documents/{topic_name}')
+    topic_path = Path(f'../documents/{topic_name}/metadata')
     embeddings_file = topic_path / "chunk_embeddings.npy"
     metadata_file = topic_path / "metadata.json"
 

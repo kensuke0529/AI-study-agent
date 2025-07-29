@@ -17,8 +17,6 @@ def list_topic_files(topic_name):
         if f.is_file() and f.suffix.lower() in [".pdf", ".txt"]
     ]
 
-    return [f.name for f in topic_path.iterdir() if f.is_file() and f.suffix.lower() in [".pdf", ".txt"]]
-
 def extract_text(file_path: Path) -> str:
     """Extract text from a txt or pdf file."""
     if file_path.suffix.lower() == ".txt":
@@ -65,9 +63,10 @@ def file_hash(file_path: Path):
 # ----- Main preprocessing and saving function -----
 
 def preprocess_and_save(topic_name, client):
-    topic_path = Path(f'../documents/{topic_name}')
+    topic_path = Path(f'../documents/{topic_name}/metadata')
     topic_path.mkdir(parents=True, exist_ok=True)
 
+    
     metadata_file = topic_path / "metadata.json"
     embeddings_file = topic_path / "chunk_embeddings.npy"
 
@@ -87,7 +86,7 @@ def preprocess_and_save(topic_name, client):
     new_hashes = {}
 
     for filename in list_topic_files(topic_name):
-        file_path = topic_path / filename
+        file_path = Path(f'../documents/{topic_name}') / filename
         current_hash = file_hash(file_path)
         new_hashes[filename] = current_hash
 
